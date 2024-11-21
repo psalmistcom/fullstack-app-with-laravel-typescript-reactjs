@@ -16,7 +16,7 @@ class FeatureController extends Controller
     {
         $paginated = Feature::latest()->paginate();
         return Inertia::render('Feature/Index', [
-            'feature'=> FeatureResource::collection($paginated),
+            'features'=> FeatureResource::collection($paginated),
         ]);
     }
 
