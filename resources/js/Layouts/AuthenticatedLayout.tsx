@@ -185,8 +185,11 @@ export default function Authenticated({
                     </div>
                 </header>
             )}
-
-            <main>{children}</main>
+            <div className="py-12">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <main>{children}</main>
+                </div>
+            </div>
         </div>
     );
 }
