@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FeatureResource extends JsonResource
+class FeatureListResource extends JsonResource
 {
     public static $wrap = false;
     /**
@@ -15,7 +15,6 @@ class FeatureResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // dd($this);
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -33,7 +32,6 @@ class FeatureResource extends JsonResource
                     'user' => new UserResource($comment->user),
                 ];
             }),
-
         ];
     }
 }

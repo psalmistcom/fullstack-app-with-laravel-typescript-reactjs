@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FeatureRequest;
 use App\Http\Requests\UpdateFeatureRequest;
+use App\Http\Resources\FeatureListResource;
 use App\Http\Resources\FeatureResource;
 use App\Models\Feature;
 use App\Models\Upvote;
@@ -21,6 +22,7 @@ class FeatureController extends Controller
     {
         $currentUserId = Auth::id();
         $paginated = Feature::latest()
+            ->with(['comments.user'])
             ->withCount(['upvotes as upvote_count' => function ($query) {
                 $query->select(DB::raw('SUM(CASE WHEN upvote = 1 THEN 1 ELSE -1 END)'));
             }])
@@ -34,7 +36,7 @@ class FeatureController extends Controller
             ])
             ->paginate();
         return Inertia::render('Feature/Index', [
-            'features' => FeatureResource::collection($paginated),
+            'features' => FeatureListResource::collection($paginated),
         ]);
     }
 
@@ -67,18 +69,18 @@ class FeatureController extends Controller
     public function show(Feature $feature)
     {
         $feature->upvote_count = Upvote::where('feature_id', $feature->id)
-        ->sum(DB::raw('CASE WHEN upvote = 1 THEN 1 ELSE -1 END'));
-        
+            ->sum(DB::raw('CASE WHEN upvote = 1 THEN 1 ELSE -1 END'));
+
         $feature->user_has_upvoted = Upvote::where('feature_id', $feature->id)
-        ->where('user_id', Auth::id())
-        ->where('upvote', 1)
-        ->exists();
+            ->where('user_id', Auth::id())
+            ->where('upvote', 1)
+            ->exists();
 
         $feature->user_has_downvoted = Upvote::where('feature_id', $feature->id)
-        ->where('user_id', Auth::id())
-        ->where('upvote', 0)
-        ->exists();
-        
+            ->where('user_id', Auth::id())
+            ->where('upvote', 0)
+            ->exists();
+
         return Inertia::render('Feature/Show', [
             'feature' => new FeatureResource($feature)
         ]);
