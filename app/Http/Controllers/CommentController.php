@@ -20,9 +20,12 @@ class CommentController extends Controller
         return to_route('feature.show', $feature);
     }
 
-    public function destroy (Comment $comment) {
+    public function destroy(Comment $comment)
+    {
+        if ($comment->user_id !==  Auth::id()) {
+            abort(403);
+        }
         $featureId = $comment->feature->id;
-
         $comment->delete();
 
         return to_route('feature.show', $featureId);
