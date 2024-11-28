@@ -51,6 +51,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function features(): HasMany
     {
-        return $this->hasMany(Feature::class);
+        return $this->hasMany(Feature::class)->latest();
     }
 }

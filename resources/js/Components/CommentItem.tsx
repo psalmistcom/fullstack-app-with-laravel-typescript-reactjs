@@ -27,14 +27,16 @@ export default function CommentItem({ comment }: { comment: Comment }) {
                     />
                 </svg>
             </div>
-            <div className="font-bold mt-1">
-                <h3>{comment.user.name}</h3>
-                <span className="text-gray-500 text-xs ml-4">
-                    {comment.created_at}
-                </span>
+            <div className="flex-1 items-center justify-center">
+                <div className="flex items-center gap-3 font-bold mt-1">
+                    <h4 className="text-orange-400">{comment.user.name}</h4>
+                    <span className="text-gray-500 text-xs ">
+                        {comment.created_at}
+                    </span>
+                </div>
                 <h3 className="italic mt-1">{comment.comment} </h3>
             </div>
-            <div className="flex items-center py-12 px-6">
+            <div className="flex items-start px-3">
                 <button onClick={deleteComment}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
