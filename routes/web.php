@@ -1,6 +1,7 @@
 <?php
 
 use App\Enum\PermissionsEnum;
+use App\Enum\RolesEnum;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\UpVoteController;
@@ -25,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 
-    Route::middleware(['verified'])->group(function () {
+    Route::middleware(['verified', 'role:' . RolesEnum::User->value])->group(function () {
         Route::get('/dashboard', function () {
             return Inertia::render('Dashboard');
         })->name('dashboard');
