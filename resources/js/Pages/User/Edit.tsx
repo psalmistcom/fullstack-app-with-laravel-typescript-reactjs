@@ -1,8 +1,7 @@
-import Checkbox from "@/Components/Checkbox";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
-import TextAreaInput from "@/Components/TextAreaInput";
+import Radio from "@/Components/Radio";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { User } from "@/types";
@@ -24,13 +23,31 @@ export default function Edit({
         roles: user.roles || "",
     });
 
+    const onRoleChange = (ev: any) => {
+        // console.log(ev.target.value, ev.target.checked);
+        if (ev.target.checked) {
+            setData("roles", [ev.target.value]);
+        }
+    };
+    // const onRoleChange = (ev: any) => {
+    //     console.log(ev.target.value, ev.target.checked);
+    //     if (ev.target.checked) {
+    //         setData("roles", [...data.roles, ev.target.value]);
+    //     } else {
+    //         setData("roles", [
+    //             ...data.roles.filter((r) => r !== ev.target.value),
+    //         ]);
+    //     }
+    // };
+
     const updateUser: FormEventHandler = (ev) => {
         ev.preventDefault();
 
         put(route("user.update", user.id), {
-            preserveScroll: true,
+            preserveState: true,
         });
     };
+
     return (
         <AuthenticatedLayout
             header={
@@ -85,39 +102,30 @@ export default function Edit({
                             />
                         </div>
                         <div>
-                        <InputLabel htmlFor="roles" value="Assign Role" className="mb-2" />
+                            {/* <pre>{JSON.stringify(data, undefined, 2)}</pre> */}
+                            <InputLabel
+                                htmlFor="roles"
+                                value="Assign Role"
+                                className="mb-2"
+                            />
                             {roles.map((role: any) => (
                                 <div
                                     key={role.id}
                                     className="gap-4 flex items-center"
                                 >
-                                    <Checkbox name="remember" />
+                                    <Radio
+                                        name="roles"
+                                        checked={data.roles.includes(role.name)}
+                                        value={role.name}
+                                        onChange={onRoleChange}
+                                    />
                                     <span className="capitalize">
                                         {rolesLabels[role.name]}
                                     </span>
                                 </div>
                             ))}
                         </div>
-                        {/* <div className="">
-                            <InputLabel
-                                htmlFor="roles"
-                                value="Roles"
-                            />
-
-                            <TextInput                                
-                                id="roles"
-                                className="mt-1 block w-full"
-                                value={data.roles}
-                                onChange={(e) =>
-                                    setData("roles", e.target.value)
-                                }
-                            />
-
-                            <InputError
-                                className="mt-2"
-                                message={errors.roles}
-                            />
-                        </div> */}
+                        
                         <div>
                             <PrimaryButton disabled={processing}>
                                 {" "}

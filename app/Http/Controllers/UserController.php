@@ -28,7 +28,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         return Inertia::render('User/Edit', [
-            'user' => $user,
+            'user' => new AuthUserResource($user),
+            // 'user' => AuthUserResource::collection($user)->collection->toArray(),
             'roles' => Role::all(),
             'rolesLabels' => RolesEnum::labels(),
         ]);
@@ -39,6 +40,12 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $data = $request->validate([
+            'roles' => ['required', 'array']
+        ]);
+        $user->syncRoles($data['roles']);
+
+        return back()->with('success', 'User role has been updated');
+        
     }
 }
