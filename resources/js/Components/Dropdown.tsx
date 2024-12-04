@@ -106,6 +106,7 @@ const Content = ({
 };
 
 const DropdownLink = ({
+    prefetch,
     className = '',
     children,
     ...props

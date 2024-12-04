@@ -36,6 +36,7 @@ export default function Authenticated({
                                     Dashboard
                                 </NavLink>
                                 <NavLink
+                                    prefetch = {['mount', 'hover']}
                                     href={route("feature.index")}
                                     active={route().current("feature.index")}
                                 >
@@ -43,6 +44,7 @@ export default function Authenticated({
                                 </NavLink>
                                 {can(user, "managme_users") && (
                                     <NavLink
+                                        prefetch 
                                         href={route("user.index")}
                                         active={route().current("user.index")}
                                     >

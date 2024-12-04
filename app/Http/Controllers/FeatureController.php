@@ -36,6 +36,7 @@ class FeatureController extends Controller
                 }
             ])
             ->paginate();
+            
         return Inertia::render('Feature/Index', [
             'features' => FeatureListResource::collection($paginated),
         ]);
@@ -85,7 +86,7 @@ class FeatureController extends Controller
         return Inertia::render('Feature/Show', [
             'feature' => new FeatureResource($feature), 
             'comments' => Inertia::defer(function () use ($feature) {
-                sleep(5);
+                
                 return $feature->comments->map(function ($comment) {
                     return [
                         'id' => $comment->id,
