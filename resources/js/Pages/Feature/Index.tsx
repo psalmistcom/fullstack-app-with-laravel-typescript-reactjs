@@ -2,7 +2,7 @@ import FeatureItem from "@/Components/FeatureItem";
 import { can } from "@/helpers";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Feature, PageProps, PaginatedData } from "@/types";
-import { Head, Link, usePoll } from "@inertiajs/react";
+import { Head, Link, usePoll, WhenVisible } from "@inertiajs/react";
 
 // export default function Index({
 //     auth,
@@ -14,10 +14,12 @@ import { Head, Link, usePoll } from "@inertiajs/react";
 export default function Index({
     auth,
     features,
+    page,
 }: PageProps<{
-    features: PaginatedData<Feature>;
+    features: Feature[];
+    page: number;
 }>) {
-    usePoll(3000);
+    // usePoll(3000);
     return (
         <AuthenticatedLayout
             header={
@@ -38,9 +40,22 @@ export default function Index({
                     </Link>
                 </div>
             )}
-            {features.data.map((feature) => (
+            {features.map((feature) => (
                 <FeatureItem feature={feature} key={feature.id} />
             ))}
+
+            <WhenVisible
+                always
+                fallback={<div>loading ... </div>}
+                params={{
+                    data: { page: page + 1 },
+                    only: ["features", "page"],
+                    preserveUrl: true,
+                }}
+            >
+                {" "}
+                This is visible
+            </WhenVisible>
         </AuthenticatedLayout>
     );
 }
