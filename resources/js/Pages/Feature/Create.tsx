@@ -60,6 +60,7 @@ export default function Create() {
                             />
 
                             <TextAreaInput
+                            rows={6}
                                 id="description"
                                 className="mt-1 block w-full"
                                 value={data.description}

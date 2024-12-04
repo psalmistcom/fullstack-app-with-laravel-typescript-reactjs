@@ -53,8 +53,8 @@ export default function Index({
                     preserveUrl: true,
                 }}
             >
-                {" "}
-                This is visible
+                <>his is visible </>
+                
             </WhenVisible>
         </AuthenticatedLayout>
     );
