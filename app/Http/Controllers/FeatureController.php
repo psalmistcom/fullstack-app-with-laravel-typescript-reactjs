@@ -6,6 +6,7 @@ use App\Http\Requests\FeatureRequest;
 use App\Http\Requests\UpdateFeatureRequest;
 use App\Http\Resources\FeatureListResource;
 use App\Http\Resources\FeatureResource;
+use App\Http\Resources\UserResource;
 use App\Models\Feature;
 use App\Models\Upvote;
 use Illuminate\Http\Request;
@@ -82,7 +83,18 @@ class FeatureController extends Controller
             ->exists();
 
         return Inertia::render('Feature/Show', [
-            'feature' => new FeatureResource($feature)
+            'feature' => new FeatureResource($feature), 
+            'comments' => Inertia::defer(function () use ($feature) {
+                sleep(5);
+                return $feature->comments->map(function ($comment) {
+                    return [
+                        'id' => $comment->id,
+                        'comment' => $comment->comment,
+                        'created_at' => $comment->created_at->format('Y-m-d H:i:s'),
+                        'user' => new UserResource($comment->user),
+                    ];
+                });
+            }),
         ]);
     }
 
