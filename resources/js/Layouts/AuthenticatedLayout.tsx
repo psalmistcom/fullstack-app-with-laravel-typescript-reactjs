@@ -82,7 +82,8 @@ export default function Authenticated({
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link
+                                        <Dropdown.Link 
+                                        prefetch
                                             href={route("profile.edit")}
                                         >
                                             Profile
@@ -156,6 +157,7 @@ export default function Authenticated({
                             Dashboard
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
+                        prefetch
                             href={route("feature.index")}
                             active={route().current("feature.index")}
                         >
@@ -163,6 +165,7 @@ export default function Authenticated({
                         </ResponsiveNavLink>
                         {can(user, "managme_users") && (
                             <ResponsiveNavLink
+                            prefetch
                                 href={route("user.index")}
                                 active={route().current("user.index")}
                             >
@@ -182,7 +185,7 @@ export default function Authenticated({
                         </div>
 
                         <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route("profile.edit")}>
+                            <ResponsiveNavLink prefetch href={route("profile.edit")}>
                                 Profile
                             </ResponsiveNavLink>
                             <ResponsiveNavLink

@@ -4,6 +4,13 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Feature, PageProps, PaginatedData } from "@/types";
 import { Head, Link, usePoll } from "@inertiajs/react";
 
+// export default function Index({
+//     auth,
+//     features,
+// }: PageProps<{
+//     features: PaginatedData<Feature>;
+// }>) {
+
 export default function Index({
     auth,
     features,
